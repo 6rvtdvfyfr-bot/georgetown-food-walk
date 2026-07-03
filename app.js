@@ -164,19 +164,27 @@ async function refetchEntriesAndPhotos() {
   const stopIds = stops.map((s) => s.id);
   if (stopIds.length === 0) return;
 
+  // Build into local objects and only swap them into the shared module state once
+  // fully populated. This function can run concurrently (a save triggers it directly,
+  // and again via the realtime subscription reacting to that same write) — mutating
+  // the shared objects in place across the awaits below let two overlapping calls
+  // interleave their pushes into the same array, duplicating rows.
   const { data: entryRows } = await supabase.from('entries').select('*').in('stop_id', stopIds);
-  entriesByStop = {};
+  const newEntriesByStop = {};
   for (const e of entryRows || []) {
-    (entriesByStop[e.stop_id] ||= []).push(e);
+    (newEntriesByStop[e.stop_id] ||= []).push(e);
   }
 
   const { data: photoRows } = await supabase.from('photos').select('*').in('stop_id', stopIds).order('created_at');
-  photosByStop = {};
+  const newPhotosByStop = {};
   for (const p of photoRows || []) {
     const { data: signed } = await supabase.storage.from('trip-photos').createSignedUrl(p.storage_path, 3600);
     p.signedUrl = signed?.signedUrl || null;
-    (photosByStop[p.stop_id] ||= []).push(p);
+    (newPhotosByStop[p.stop_id] ||= []).push(p);
   }
+
+  entriesByStop = newEntriesByStop;
+  photosByStop = newPhotosByStop;
 }
 
 function subscribeRealtime() {
