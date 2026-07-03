@@ -113,22 +113,27 @@ Bucket `trip-photos`, created **private** (not public) — a public bucket would
 
 Since the bucket is private, the app fetches photos via short-lived signed URLs (`createSignedUrl`), not public CDN links.
 
-## Content: Georgetown stop list (draft)
+## Content: Georgetown stop list
 
-Route walks in one direction (roughly Georgetown's core, east side toward the waterfront) rather than backtracking, so the map's route line matches the actual walk:
+Revised after checking real operating hours (the first draft baked in unverified assumptions — see below). Route runs roughly campus-side to M St to the C&O Canal and back to M St, all within Georgetown's compact core:
 
-| # | Time | Stop | Address | Category | Duration |
-|---|------|------|---------|----------|----------|
-| 1 | 4:00 PM | Call Your Mother Deli | 3428 O St NW, Washington, DC 20007 | Bagels | ~20 min |
-| 2 | 4:35 PM | Baked & Wired | 1052 Thomas Jefferson St NW, Washington, DC 20007 | Pastries/cupcakes | ~20 min |
-| 3 | 5:10 PM | Georgetown Cupcake | 3301 M St NW, Washington, DC 20007 | Cupcakes | ~15 min |
-| 4 | 5:40 PM | Ching Ching Cha | 1063 Wisconsin Ave NW, Washington, DC 20007 | Tea house | ~30 min |
-| 5 | 6:25 PM | Wisemiller's Grocery & Deli | 1236 36th St NW, Washington, DC 20007 | Savory | ~25 min |
-| 6 | 7:05 PM | Dolcezza Gelato | 1560 Wisconsin Ave NW, Washington, DC 20007 | Gelato | ~20 min |
+| # | Time | Stop | Address | Category | Duration | Verified Fri hours |
+|---|------|------|---------|----------|----------|---------------------|
+| 1 | 4:00 PM | Wisemiller's Grocery & Deli | 1236 36th St NW, Washington, DC 20007 | Savory | ~20 min | 8am–11pm |
+| 2 | 4:35 PM | Chaia Tacos | 3207 Grace St NW, Washington, DC 20007 | Savory | ~25 min | 11am–8pm |
+| 3 | 5:15 PM | Compass Coffee | 1351 Wisconsin Ave NW, Washington, DC 20007 | Coffee | ~20 min | 6am–7pm |
+| 4 | 5:50 PM | Georgetown Cupcake | 3301 M St NW, Washington, DC 20007 | Cupcakes | ~15 min | 10am–9pm |
+| 5 | 6:15 PM | Amorino Gelato | 3401 M St NW, Washington, DC 20007 | Gelato | ~20 min | 11am–7pm |
 
-Total tasting time ~2h15m across ~2.5-3h including walking. This list is a starting draft — since stop content lives in the `stops` table (not hardcoded in the app), it can be edited later by re-running SQL against Supabase without touching app code.
+Finishes ~6:35 PM with a comfortable margin before every stop's close time. Since stop content lives in the `stops` table (not hardcoded in the app), it can be edited later by re-running SQL against Supabase without touching app code.
 
-**Coordinates will not be hand-typed.** Each address will be geocoded during the build via OpenStreetMap's free Nominatim API (1 req/sec, descriptive User-Agent), with each result's `display_name` checked against the intended business, and all six results cross-checked against Georgetown's known bounding box (~lat 38.902–38.912, lng -77.058 to -77.075) before being written into the schema. The address, returned coordinate, and Nominatim's `display_name` will be recorded together as a comment above each seed row, so the source is auditable later.
+**Dropped from the original draft, and why** (caught during setup, before deploy — exactly the kind of thing the "verify, don't guess" rule is for):
+- **Call Your Mother Deli** — closes 2pm Friday; incompatible with any afternoon/evening slot.
+- **Ching Ching Cha** — the Georgetown location closed after 25 years and relocated to Dupont Circle, a different neighborhood.
+- **Original Dolcezza address (1560 Wisconsin Ave NW)** — no longer a Dolcezza location; current locations don't include Georgetown/Wisconsin Ave.
+- **Baked & Wired** — closes ~4pm daily, incompatible with the walk's timing.
+
+**Coordinates are not hand-typed.** Each address was geocoded via OpenStreetMap's free Nominatim API, with each result's `display_name` checked against the intended business, and all five results cross-checked against Georgetown's known bounding box (~lat 38.902–38.912, lng -77.058 to -77.075). The address, returned coordinate, and Nominatim's `display_name` are recorded as a comment above each seed row in `supabase/schema.sql`, so the source is auditable later.
 
 ## Frontend
 

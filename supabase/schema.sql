@@ -165,53 +165,52 @@ select id, 'algollenberg@gmail.com', 'Audra' from trips where slug = 'georgetown
 -- before being recorded here. Source display_name kept in the comment above each
 -- row so the coordinate is auditable, per the project's "never hand-type
 -- coordinates" rule.
+--
+-- Stop list revised from an earlier draft after checking real operating hours:
+-- Call Your Mother Deli (closes 2pm Fri), Ching Ching Cha (Georgetown location
+-- permanently closed, relocated to Dupont Circle), the original Dolcezza address
+-- (no longer a Dolcezza location), and Baked & Wired (closes ~4pm daily) were
+-- all dropped as incompatible with an afternoon/evening walk, per the "verify,
+-- don't guess" rule — the draft plan had baked in unverified hours/addresses.
 
--- 1. Call Your Mother Deli — 3428 O St NW
--- Nominatim: "3428, O Street Northwest, Georgetown, Ward 2, Washington, DC, 20007" → 38.9076299, -77.0688724
-insert into stops (trip_id, seq, name, address, lat, lng, planned_time, duration_min, category, notes)
-select id, 1, 'Call Your Mother Deli', '3428 O St NW, Washington, DC 20007',
-       38.9076299, -77.0688724, '4:00 PM', 20, 'bagels',
-       'Everything bagel with scallion cream cheese is the move. Can get a line — order ahead if possible.'
-from trips where slug = 'georgetown-2026-07-10';
-
--- 2. Baked & Wired — 1052 Thomas Jefferson St NW
--- Nominatim: "Baked and Wired, 1052, Thomas Jefferson Street Northwest, Georgetown, Ward 2, Washington, DC, 20007" → 38.9038790, -77.0604350
-insert into stops (trip_id, seq, name, address, lat, lng, planned_time, duration_min, category, notes)
-select id, 2, 'Baked & Wired', '1052 Thomas Jefferson St NW, Washington, DC 20007',
-       38.9038790, -77.0604350, '4:35 PM', 20, 'pastries',
-       'Known for quirky cupcake flavors and brownies; less touristy than Georgetown Cupcake down the street.'
-from trips where slug = 'georgetown-2026-07-10';
-
--- 3. Georgetown Cupcake — 3301 M St NW
--- Nominatim: "Georgetown Cupcake, 3301, M Street Northwest, Georgetown, Ward 2, Washington, DC, 20007" → 38.9052539, -77.0661542
-insert into stops (trip_id, seq, name, address, lat, lng, planned_time, duration_min, category, notes)
-select id, 3, 'Georgetown Cupcake', '3301 M St NW, Washington, DC 20007',
-       38.9052539, -77.0661542, '5:10 PM', 15, 'cupcakes',
-       'The famous one — worth comparing head-to-head against Baked & Wired.'
-from trips where slug = 'georgetown-2026-07-10';
-
--- 4. Ching Ching Cha — 1063 Wisconsin Ave NW
--- Nominatim: "1063, Wisconsin Avenue Northwest, Georgetown, Ward 2, Washington, DC, 20007" → 38.9043981, -77.0624534
-insert into stops (trip_id, seq, name, address, lat, lng, planned_time, duration_min, category, notes)
-select id, 4, 'Ching Ching Cha', '1063 Wisconsin Ave NW, Washington, DC 20007',
-       38.9043981, -77.0624534, '5:40 PM', 30, 'tea',
-       'Sit-down tea house — a good palate reset between sweets, and the day''s one seated indoor stop.'
-from trips where slug = 'georgetown-2026-07-10';
-
--- 5. Wisemiller's Grocery & Deli — 1236 36th St NW
+-- 1. Wisemiller's Grocery & Deli — 1236 36th St NW — Fri hours 8am-11pm
 -- Nominatim: "1236, 36th Street Northwest, Georgetown, Ward 2, Washington, DC, 20007" → 38.9063026, -77.0704579
 insert into stops (trip_id, seq, name, address, lat, lng, planned_time, duration_min, category, notes)
-select id, 5, 'Wisemiller''s Grocery & Deli', '1236 36th St NW, Washington, DC 20007',
-       38.9063026, -77.0704579, '6:25 PM', 25, 'savory',
+select id, 1, 'Wisemiller''s Grocery & Deli', '1236 36th St NW, Washington, DC 20007',
+       38.9063026, -77.0704579, '4:00 PM', 20, 'savory',
        'Georgetown institution near the university (of St. Elmo''s Fire fame) — a quick savory sandwich stop.'
 from trips where slug = 'georgetown-2026-07-10';
 
--- 6. Dolcezza Gelato — 1560 Wisconsin Ave NW
--- Nominatim: "1560, Wisconsin Avenue Northwest, Georgetown, Ward 2, Washington, DC, 20007" → 38.9103302, -77.0650183
+-- 2. Chaia Tacos — 3207 Grace St NW — Fri hours 11am-8pm
+-- Nominatim: "3207, Grace Street Northwest, Georgetown, Ward 2, Washington, DC, 20007" → 38.9040985, -77.0632485
 insert into stops (trip_id, seq, name, address, lat, lng, planned_time, duration_min, category, notes)
-select id, 6, 'Dolcezza Gelato', '1560 Wisconsin Ave NW, Washington, DC 20007',
-       38.9103302, -77.0650183, '7:05 PM', 20, 'gelato',
-       'Closing stop — gelato as a finale, echoing the Rome food walk from the last trip.'
+select id, 2, 'Chaia Tacos', '3207 Grace St NW, Washington, DC 20007',
+       38.9040985, -77.0632485, '4:35 PM', 25, 'savory',
+       'Vegetarian tacos near the C&O Canal — a heartier second savory stop before the sweets.'
+from trips where slug = 'georgetown-2026-07-10';
+
+-- 3. Compass Coffee — 1351 Wisconsin Ave NW — Fri hours 6am-7pm
+-- Nominatim: "1351, Wisconsin Avenue Northwest, Georgetown, Ward 2, Washington, DC, 20007" → 38.9079687, -77.0632741
+insert into stops (trip_id, seq, name, address, lat, lng, planned_time, duration_min, category, notes)
+select id, 3, 'Compass Coffee', '1351 Wisconsin Ave NW, Washington, DC 20007',
+       38.9079687, -77.0632741, '5:15 PM', 20, 'coffee',
+       'DC-roasted coffee in the historic Georgetown Theater building — a palate reset before dessert.'
+from trips where slug = 'georgetown-2026-07-10';
+
+-- 4. Georgetown Cupcake — 3301 M St NW — Fri hours 10am-9pm
+-- Nominatim: "Georgetown Cupcake, 3301, M Street Northwest, Georgetown, Ward 2, Washington, DC, 20007" → 38.9052539, -77.0661542
+insert into stops (trip_id, seq, name, address, lat, lng, planned_time, duration_min, category, notes)
+select id, 4, 'Georgetown Cupcake', '3301 M St NW, Washington, DC 20007',
+       38.9052539, -77.0661542, '5:50 PM', 15, 'cupcakes',
+       'The famous one — the show made it a landmark; worth the hype.'
+from trips where slug = 'georgetown-2026-07-10';
+
+-- 5. Amorino Gelato — 3401 M St NW — Fri hours 11am-7pm
+-- Nominatim: "Amorino, 3401, M Street Northwest, Georgetown, Ward 2, Washington, DC, 20007" → 38.9052165, -77.0679701
+insert into stops (trip_id, seq, name, address, lat, lng, planned_time, duration_min, category, notes)
+select id, 5, 'Amorino Gelato', '3401 M St NW, Washington, DC 20007',
+       38.9052165, -77.0679701, '6:15 PM', 20, 'gelato',
+       'Closing stop — gelato as a finale, echoing the Rome food walk from the last trip. Arrive well before the 7pm close.'
 from trips where slug = 'georgetown-2026-07-10';
 
 -- ---------- STORAGE ----------
