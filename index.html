@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Georgetown Food Walk</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<script>
+  // ---- Fill these in after creating your Supabase project ----
+  // Project Settings → API → Project URL / anon public key.
+  window.SUPABASE_URL = 'REPLACE_WITH_SUPABASE_PROJECT_URL';
+  window.SUPABASE_ANON_KEY = 'REPLACE_WITH_SUPABASE_ANON_KEY';
+</script>
+
+<header id="app-header">
+  <h1>Georgetown Food Walk</h1>
+  <div id="phase-banner" class="phase-banner">Loading&hellip;</div>
+</header>
+
+<section id="auth-panel" class="panel hidden">
+  <p>Sign in to see the walk and add your ratings.</p>
+  <form id="auth-form">
+    <input id="auth-email" type="email" placeholder="you@example.com" required autocomplete="email">
+    <button type="submit">Send magic link</button>
+  </form>
+  <p id="auth-status" class="status"></p>
+</section>
+
+<section id="app-panel" class="panel hidden">
+  <button id="trip-info-toggle" class="link-button">ℹ️ Trip info</button>
+  <div id="trip-info" class="trip-info hidden">
+    <p><strong>Meet:</strong> M St NW &amp; Wisconsin Ave NW, Georgetown &mdash; 3:50 PM</p>
+    <p><strong>Date:</strong> Friday, July 10, 2026 &mdash; afternoon/evening</p>
+    <p class="muted">Edit this panel in index.html any time before the walk.</p>
+  </div>
+
+  <div id="map"></div>
+
+  <div id="stops-list"></div>
+
+  <button id="sign-out" class="link-button">Sign out</button>
+</section>
+
+<section id="no-access-panel" class="panel hidden">
+  <p>You're signed in, but this account isn't on the guest list for this trip.</p>
+  <button id="no-access-sign-out" class="link-button">Sign out</button>
+</section>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>
