@@ -1,0 +1,12 @@
+{
+  "name": "georgetown-food-walk-recap",
+  "private": true,
+  "type": "module",
+  "description": "One-off local script: pulls the trip's real ratings/notes/photos from Supabase and writes a ChatGPT-ready prompt + image assets for a photo-montage recap.",
+  "scripts": {
+    "generate": "node generate-recap-prompt.mjs"
+  },
+  "dependencies": {
+    "staticmaps": "^1.13.0"
+  }
+}

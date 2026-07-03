@@ -1,1 +1,4 @@
 .DS_Store
+scripts/recap/node_modules/
+scripts/recap/.env.local
+scripts/recap/recap-output/
