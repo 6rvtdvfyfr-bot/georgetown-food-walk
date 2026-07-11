@@ -257,7 +257,7 @@ function renderStops(phaseArg) {
     const draft = pendingEdits[s.id] || { rating: myEntry?.rating ?? 0, note: myEntry?.note ?? '' };
     pendingEdits[s.id] = draft;
 
-    const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lng}`;
+    const mapsUrl = `https://maps.apple.com/?ll=${s.lat},${s.lng}&q=${encodeURIComponent(s.name)}`;
     const highlightClass = s.id === currentId ? 'is-current' : '';
 
     const otherEntriesHtml = otherEntries.map((e) => {
@@ -289,7 +289,7 @@ function renderStops(phaseArg) {
           <div class="rate-form">
             <div class="pp-stars">${starWidget(s.id, myEntry?.rating)}</div>
             <textarea data-note-for="${s.id}" placeholder="Notes (what you ordered, thoughts...)">${escapeHtml(draft.note)}</textarea>
-            <input type="file" accept="image/*" capture="environment" data-photo-for="${s.id}">
+            <input type="file" accept="image/*" data-photo-for="${s.id}">
             <button data-save-for="${s.id}">Save my rating</button>
           </div>
         </div>
