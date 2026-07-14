@@ -57,6 +57,14 @@ This was the first real trip built on the architecture above — deliberately sm
 
 Older feature ideas not superseded by the above (Overview calendar deep-links, per-stop timeline start-time editing, hide "buy tickets" once booked, phrasebook, currency cheatsheet, live open/closed status per stop, dress-code warnings) are in the "Carried-forward feature backlog" section of the Lessons Learned doc — worth a look when scoping v1 features, but not the headline decisions.
 
+### In-app admin/master mode — idea for future trips, not built for Georgetown (added 2026-07-13)
+
+Came up when Brian wanted to add a friend as a viewer after the Georgetown trip had already ended, and separately wanted to fix/delete stray ratings without opening Supabase directly. Worth **designing in from the start of the next trip's build** rather than bolting on after the fact:
+
+- **Worth building**: a scoped admin mode gated behind an `is_admin` flag on the member's row, exposing exactly two things in the app itself: (a) member management (add/remove people, e.g. sharing the trip with someone after the fact), and (b) moderation (edit or delete anyone's rating/note/photo, not just your own).
+- **Deliberately not in scope for in-app admin**: adding/reordering/editing the *stops themselves*. That's rare (basically once per trip) and the existing research → geocode → SQL-seed flow already works and keeps coordinates verified — an in-browser "add a stop" form would either need its own geocoding integration or invite hand-typed lat/lng, which is exactly what architecture rule 2 exists to prevent.
+- Not free even at this scope: a new `is_admin` column, a couple of new RLS policies, and two small UI panels — worth planning for up front on the next trip rather than treating as a quick bolt-on.
+
 ### Badges — idea under consideration, not decided (added 2026-07-03)
 
 Brian made custom embroidered-patch-style badge images (e.g. via ChatGPT) mid-trip for "random things" worth celebrating — a fun tradition worth supporting somehow in a future Passport-style feature. One rough idea floated, **not settled**: split badges into (a) fixed/predictable ones whose art could be pre-generated before departure since the achievement names are known ahead of time, paired with the one-tap "share to group" idea, vs. (b) spontaneous/wildcard ones for in-the-moment jokes that can't be pre-generated and might warrant a lightweight in-app "mint a custom badge" flow instead of leaving the app.
